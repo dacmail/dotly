@@ -14,9 +14,12 @@ dotfiles::apply_templating() {
 ##?    create [dotfiles_path]
 ##?
 
-# @todo Ensure it's not already created
-cp -r "$DOTLY_PATH/dotfiles_template/"* "$DOTFILES_PATH"
+if  [[ ! -d "$DOTFILES_PATH/symlinks" ]]; then
+  cp -r "$DOTLY_PATH/dotfiles_template/"* "$DOTFILES_PATH/"
 
-dotfiles::apply_templating
+  dotfiles::apply_templating
 
-log::success "Done!"
+  log::success "Done!"
+else
+  output::answer "Dotfiles already exists, skipping to next step"
+fi
